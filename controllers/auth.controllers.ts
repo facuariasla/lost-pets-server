@@ -12,7 +12,7 @@ export function getSHA256(text: string) {
 export const authMiddleware = (req, res, next) => {
   // Authorization: bearer token
   try {
-    const randomValor = process.env.SHH_TOKEN;
+    const randomValor = process.env.JSONWEBTOKEN_SHHH;
     const token = req.headers.authorization.split(" ")[1];
     const data = jwt.verify(token, randomValor);
     req._user = data;

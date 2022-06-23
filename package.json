@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "npm run dev:server",
     "dev:server": "nodemon --watch ./**/* -e ts --exec ts-node ./index.ts",
+    "start": "node ./index.js",
     "build:server": "tsc ./index.ts",
     "build": "npm run build:server",
     "delete:users": "ts-node ./sync/sync-users.ts",
