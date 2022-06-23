@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "dev": "npm run dev:server",
     "dev:server": "nodemon --watch ./**/* -e ts --exec ts-node ./index.ts",
