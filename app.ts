@@ -10,9 +10,7 @@ app.use(cors());
 //midlewares
 
 // Handlear el 404 visualmente en otro html
-app.use('*', (req,res)=>{
-  res.send('404 Not Found u.u')
-})
+
 
 // const rutaRelativa = path.resolve(__dirname, "../../dist/", "index.html");
 // app.get("*", (req, res) => {
@@ -28,6 +26,8 @@ app.use(
 app.use(usersRoutes);
 app.use(petsRoutes);
 
-
+app.use('*', (req,res)=>{
+  res.send('404 Not Found u.u')
+})
 
 export default app;
