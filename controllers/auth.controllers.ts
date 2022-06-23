@@ -23,16 +23,3 @@ export const authMiddleware = (req, res, next) => {
     console.log('q panso')
   }
 };
-
-
-// function que adjunta el token automaticamente en el request
-// async function authFetch(input, options = {}){
-//   const savedToken = localStorage.getItem("token_petlost")
-//   if(savedToken){
-//     // Solo hago lo del token si tengo algo guardado
-//     // si no existe el objeto headers lo creo
-//     options.headers ||= {};
-//     options.headers["Authorization"] = localStorage.getItem("token");
-//   }
-//    return fetch(input, options);
-//  };
