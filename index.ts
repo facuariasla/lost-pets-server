@@ -1,5 +1,4 @@
 import app from "./app";
-import * as path from "path";
 
 const port = process.env.PORT || 4000;
 // const staticDirPath = path.resolve(__dirname, "../client");
