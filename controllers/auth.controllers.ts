@@ -19,7 +19,7 @@ export const authMiddleware = (req, res, next) => {
     console.log(data)
     next();
   } catch (error) {
+    console.log('q paso')
     return res.status(401).json({ message: error.message });
-    console.log('q panso')
   }
 };

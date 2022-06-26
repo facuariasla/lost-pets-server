@@ -62,11 +62,16 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    // const { firstname, email, password, profilePic } = req.body;
+    const { firstname, email, password, profilePic } = req.body;
     const user = await User.findByPk(id);
-    user.set(req.body);
+    user.set({
+      firstname,
+      email,
+      password,
+      profilePic
+    });
     await user.save();
-    return res.json(user);
+    return res.json({success: true, user});
     // Cambiar este controlador
     // Si el user desea cambiar el password o email se usa Sendgrid para confirmar
   } catch (error) {
