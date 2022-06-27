@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authMiddleware } from "../controllers/auth.controllers";
+import { authMiddleware, getUserAuth } from "../controllers/auth.controllers";
 
 import {
   getAllUsers,
@@ -30,5 +30,11 @@ router.get("/users/:id/pets", authMiddleware, getUserPets);
 
 // Da info del usuario actual
 router.get("/me", authMiddleware, meFn)
+
+// Da info Auth del User
+router.get('/user-auth/:id', getUserAuth)
+
+// Cambiar password del User 
+router.get('/changepassword/:id', authMiddleware, getUserAuth)
 
 export default router;

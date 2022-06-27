@@ -64,16 +64,30 @@ export const updateUser = async (req, res) => {
     const { id } = req.params;
     const { firstname, email, password, profilePic } = req.body;
     const user = await User.findByPk(id);
+   
+    const auth = await Auth.findOne({
+      where: {
+        userId: id,
+      },
+    });
+
     user.set({
       firstname,
       email,
-      password,
       profilePic
     });
+
+    auth.set({
+      email,
+      password: getSHA256(password)
+    });
+
     await user.save();
-    return res.json({success: true, user});
+    await auth.save();
+
+    return res.json({success: true, user, auth});
     // Cambiar este controlador
-    // Si el user desea cambiar el password o email se usa Sendgrid para confirmar
+    // Si el user desea cambiar el password o email se usa Sendgrid para confirmar?
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
