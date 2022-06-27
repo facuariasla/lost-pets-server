@@ -28,7 +28,8 @@ export const authMiddleware = (req, res, next) => {
 // Ponerle a esto el middleware
 export const getUserAuth = async (req, res) => {
   try {
-    const { id } = req.params;
+    console.log(req._user);
+    const { id } = req._user;
     const auth = await Auth.findOne({
       where: {
         userId: id,
@@ -40,4 +41,3 @@ export const getUserAuth = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-

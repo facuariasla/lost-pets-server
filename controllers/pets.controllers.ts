@@ -151,6 +151,7 @@ export const updatePet = async (req, res) => {
         description,
         lat,
         lng,
+        location,
         petPhoto: imageRes.secure_url,
         _geoloc:{
           lat,

@@ -31,8 +31,8 @@ router.get("/users/:id/pets", authMiddleware, getUserPets);
 // Da info del usuario actual
 router.get("/me", authMiddleware, meFn)
 
-// Da info Auth del User
-router.get('/user-auth/:id', getUserAuth)
+// Da info del Auth del User
+router.get('/user-auth', authMiddleware, getUserAuth)
 
 // Cambiar password del User 
 router.get('/changepassword/:id', authMiddleware, getUserAuth)

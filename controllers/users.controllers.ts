@@ -59,6 +59,7 @@ export const getUser = async (req, res) => {
 };
 
 // Usa middleware token (ver routes)
+// Endpoint aun no se usa en el front
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -79,9 +80,8 @@ export const updateUser = async (req, res) => {
 
     auth.set({
       email,
-      password: getSHA256(password)
     });
-
+    // juancarlos@juancarlos 1234
     await user.save();
     await auth.save();
 

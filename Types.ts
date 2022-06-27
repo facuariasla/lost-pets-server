@@ -6,6 +6,7 @@ export interface PetALG {
   petname: string,
   description: string,
   petPhoto: string,
+  location: string,
   _geoloc: {
     lat:number,
     lng:number
