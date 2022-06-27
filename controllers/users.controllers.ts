@@ -3,7 +3,7 @@ import { Auth } from "../models/auths";
 import { Pet } from "../models/pets";
 import { getSHA256 } from "./auth.controllers";
 import * as jwt from "jsonwebtoken";
-import 'dotenv/config';
+import "dotenv/config";
 
 // Recordar usar Cloudinary, Dropzone
 // SIGN IN
@@ -36,7 +36,7 @@ export const createUser = async (req, res) => {
       res.status(200).json({
         newUser,
         userAuth,
-        token: token
+        token: token,
       });
       console.log(`User ${userId} created`);
     } else {
@@ -64,28 +64,46 @@ export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
     const { firstname, email, password, profilePic } = req.body;
+
     const user = await User.findByPk(id);
-   
-    const auth = await Auth.findOne({
+
+    const auth:any = await Auth.findOne({
       where: {
         userId: id,
       },
     });
 
-    user.set({
-      firstname,
-      email,
-      profilePic
+    const emailExist: any = await Auth.findOne({
+      where: {
+        email,
+      },
     });
+    
+    // Lo transformo a int, porque viene como string en params
+    const idToNum = parseInt(id)
+    if ((emailExist !== null) && (emailExist.userId !== idToNum)) {
+      console.log("El email ingresado ya esta en uso");
+      return res.json({
+        exist: true,
+        message: "El mail ingresado ya está en uso",
+        idToNum,
+        emailExist
+      });
+    } else {
+      auth.set({
+        email,
+      });
+      user.set({
+        firstname,
+        email,
+      });
+      await user.save();
+      await auth.save();
+      return res.json({ success: true, user, auth: auth.email});
+    }
 
-    auth.set({
-      email,
-    });
     // juancarlos@juancarlos 1234
-    await user.save();
-    await auth.save();
 
-    return res.json({success: true, user, auth});
     // Cambiar este controlador
     // Si el user desea cambiar el password o email se usa Sendgrid para confirmar?
   } catch (error) {
@@ -109,12 +127,12 @@ export const deleteUser = async (req, res) => {
 };
 
 export const getUserPets = async (req, res) => {
-  console.log(req._user)
+  console.log(req._user);
   try {
     console.log(req._user);
     // const { id } = req.params;
-    const userId_ = req._user.id
-    const userId = parseInt(userId_)
+    const userId_ = req._user.id;
+    const userId = parseInt(userId_);
     const pets = await Pet.findAll({
       where: {
         userId: userId,
@@ -122,7 +140,7 @@ export const getUserPets = async (req, res) => {
     });
     res.status(200).json(pets);
   } catch (error) {
-    console.log(req._user)
+    console.log(req._user);
     return res.status(500).json({ message: error.message });
   }
 };
@@ -156,7 +174,7 @@ export const userLogin = async (req, res) => {
       // Recordar guardar este valor en el localStorage en el state
       res.json({
         auth,
-        token
+        token,
       });
     } else {
       res.status(400).json({ invalid: "email and password doesn't match" });
@@ -173,7 +191,7 @@ export const meFn = async (req, res) => {
     const user = await User.findByPk(req._user.id);
     res.json(user);
   } catch (error) {
-    console.log('Error en /user.controller meFn');
+    console.log("Error en /user.controller meFn");
     return res.status(500).json({ message: error.message });
   }
 };
