@@ -198,10 +198,6 @@ export const changePass = async (req, res) => {
       },
     });
 
-    if(newpass.length < 4){
-      console.log('password menor a 4 caracteres')
-      return res.status(500).json({ message: 'password menor a 4 caracteres' });
-    }
 
     if (auth.password === actualpassHASHED) {
       if (newpass === newpass2) {
