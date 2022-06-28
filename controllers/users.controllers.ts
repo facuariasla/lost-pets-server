@@ -116,11 +116,16 @@ export const deleteUser = async (req, res) => {
   // ENVIAR CORREO DE CONFIRMACION PARA BORRAR
   try {
     const { id } = req.params;
-    const result = await User.destroy({
+    const user = await User.destroy({
       where: { id },
     });
-    console.log(`User with id:${result} deleted`);
-    return res.sendStatus(204);
+    const auth = await Auth.destroy({
+      where: {
+        userId: id,
+      },
+    });
+    console.log(`User with id:${id} deleted`);
+    return res.status(200).json({success:`User with id:${id} deleted`, auth, user});
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -149,7 +154,8 @@ export const getUserPets = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll();
-    res.json(users);
+    const auths = await Auth.findAll();
+    res.json({users, auths});
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
