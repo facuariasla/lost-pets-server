@@ -190,9 +190,6 @@ export const changePass = async (req, res) => {
     const { actualpass, newpass, newpass2 } = req.body;
     const actualpassHASHED = getSHA256(actualpass);
 
-    if(newpass.length < 4){
-      return 
-    }
     // Lo transformo a int, porque viene como string en params
     const idToNum = parseInt(id);
     const auth: any = await Auth.findOne({
@@ -200,6 +197,11 @@ export const changePass = async (req, res) => {
         userId: idToNum,
       },
     });
+
+    if(newpass.length < 4){
+      console.log('password menor a 4 caracteres')
+      return res.status(500).json({ message: 'password menor a 4 caracteres' });
+    }
 
     if (auth.password === actualpassHASHED) {
       if (newpass === newpass2) {
