@@ -4,12 +4,17 @@ import { Pet } from "../models/pets";
 import { getSHA256 } from "./auth.controllers";
 import * as jwt from "jsonwebtoken";
 import "dotenv/config";
+import { sendMail } from "../lib/sendgrid";
 
 // Recordar usar Cloudinary, Dropzone
 // SIGN IN
 export const createUser = async (req, res) => {
   try {
     const { firstname, email, password, profilePic, userId } = req.body;
+
+    if(password.length < 4){
+      return 
+    }
 
     const [newUser, created] = await User.findOrCreate({
       where: {
@@ -67,7 +72,7 @@ export const updateUser = async (req, res) => {
 
     const user = await User.findByPk(id);
 
-    const auth:any = await Auth.findOne({
+    const auth: any = await Auth.findOne({
       where: {
         userId: id,
       },
@@ -78,16 +83,16 @@ export const updateUser = async (req, res) => {
         email,
       },
     });
-    
+
     // Lo transformo a int, porque viene como string en params
-    const idToNum = parseInt(id)
-    if ((emailExist !== null) && (emailExist.userId !== idToNum)) {
+    const idToNum = parseInt(id);
+    if (emailExist !== null && emailExist.userId !== idToNum) {
       console.log("El email ingresado ya esta en uso");
       return res.json({
         exist: true,
         message: "El mail ingresado ya está en uso",
         idToNum,
-        emailExist
+        emailExist,
       });
     } else {
       auth.set({
@@ -99,13 +104,8 @@ export const updateUser = async (req, res) => {
       });
       await user.save();
       await auth.save();
-      return res.json({ success: true, user, auth: auth.email});
+      return res.json({ success: true, user, auth: auth.email });
     }
-
-    // juancarlos@juancarlos 1234
-
-    // Cambiar este controlador
-    // Si el user desea cambiar el password o email se usa Sendgrid para confirmar?
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -183,6 +183,61 @@ export const userLogin = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const changePass = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { actualpass, newpass, newpass2 } = req.body;
+    const actualpassHASHED = getSHA256(actualpass);
+
+    if(newpass.length < 4){
+      return 
+    }
+    // Lo transformo a int, porque viene como string en params
+    const idToNum = parseInt(id);
+    const auth: any = await Auth.findOne({
+      where: {
+        userId: idToNum,
+      },
+    });
+
+    if (auth.password === actualpassHASHED) {
+      if (newpass === newpass2) {
+        auth.set({
+          password: getSHA256(newpass),
+        });
+        await auth.save();
+
+        sendMail({
+          to: `${auth.email}`,
+          from: "infodev3410@gmail.com",
+          subject: "Contraseña cambiada",
+          html: `Tu contraseña de <a href='https://mascotasperdidas-iota.vercel.app/'>Mascotas Perdidas</a> ha sido cambiada. Tu nueva contraseña es: ${newpass}`,
+        });
+
+        return res.json({ success: true, auth });
+
+      }
+      console.log("La nueva contraseña no coincide");
+      return res.json({
+        success: false,
+        message: "La nueva contraseña no coincide",
+        auth,
+      });
+    }
+    console.log("La contraseña actual ingresada no es correcta");
+    // Enviar correo de que la contraseña fue cambiada
+    return res.json({
+      success: false,
+      message: "La nueva contraseña no coincide",
+      auth,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU2MzkwNTQ2fQ.0BhUW-CHz9r7lXCALvZvXw-yyLsqxWrX52eu_MnAokM
 
 // Llama a la informacion de determinado usuario (tiene middleware en routes)
 export const meFn = async (req, res) => {

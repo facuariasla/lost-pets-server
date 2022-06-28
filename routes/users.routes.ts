@@ -10,9 +10,9 @@ import {
   getUserPets,
   userLogin,
   meFn,
+  changePass,
 } from "../controllers/users.controllers";
 const router = Router();
-
 
 // Rutas con middleWare necesitan bearer token en headers en la peticion
 router.get("/users", getAllUsers);
@@ -29,12 +29,12 @@ router.get("/users/:id", getUser);
 router.get("/users/:id/pets", authMiddleware, getUserPets);
 
 // Da info del usuario actual
-router.get("/me", authMiddleware, meFn)
+router.get("/me", authMiddleware, meFn);
 
 // Da info del Auth del User
-router.get('/user-auth', authMiddleware, getUserAuth)
+router.get("/user-auth", authMiddleware, getUserAuth);
 
-// Cambiar password del User 
-router.get('/changepassword/:id', authMiddleware, getUserAuth)
+// Cambiar password del User
+router.put("/changepassword/:id", authMiddleware, changePass);
 
 export default router;
