@@ -35,7 +35,6 @@ export const getAllLOSTPets = async (req, res) => {
 
 export const getPetsLOSTAround = async (req, res) => {
   const { lat, lng } = req.query;
-  // En la peticion del front: fetch(`pets-around?lat=${lat}&lng=${lng}`)
   try {
     const closePetsALG = await petsAround_ALG(lat, lng);
     res.status(200).json(closePetsALG);
@@ -47,7 +46,6 @@ export const getPetsLOSTAround = async (req, res) => {
 export const createPet = async (req, res) => {
   try {
     console.log(req._user);
-    // El id es automatico, el userId (foreignKey) viene del token, y el lost true es default
     const { petname, description, petPhoto, lat, lng, location } = req.body;
     const objectID = uuidv4();
     if (petPhoto) {

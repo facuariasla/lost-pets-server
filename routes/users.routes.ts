@@ -14,7 +14,6 @@ import {
 } from "../controllers/users.controllers";
 const router = Router();
 
-// Rutas con middleWare necesitan bearer token en headers en la peticion
 router.get("/users", getAllUsers);
 router.post("/users", createUser);
 //Endpoint que CREA y devuelve el TOKEN
@@ -25,16 +24,12 @@ router.put("/users/:id", authMiddleware, updateUser);
 router.delete("/users/:id", authMiddleware, deleteUser);
 router.get("/users/:id", getUser);
 
-// Llama a todos los pets de determinado user
 router.get("/users/:id/pets", authMiddleware, getUserPets);
 
-// Da info del usuario actual
 router.get("/me", authMiddleware, meFn);
 
-// Da info del Auth del User
 router.get("/user-auth", authMiddleware, getUserAuth);
 
-// Cambiar password del User
 router.put("/changepassword/:id", authMiddleware, changePass);
 
 export default router;

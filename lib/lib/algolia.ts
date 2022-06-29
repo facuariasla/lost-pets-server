@@ -11,7 +11,6 @@ const pets_algolia = client.initIndex("pets");
 const users_algolia = client.initIndex("users");
 
 // PETS QUERIES //////////////////////////////////////////////////////////////
-// Agrega un nuevo pet
 export const newPet_ALG = async (record: any) => {
   try {
     const newPet = await pets_algolia.saveObject(record).wait();
@@ -23,7 +22,6 @@ export const newPet_ALG = async (record: any) => {
   }
 };
 
-// Elimina a un Pet
 export const delPet_ALG = async (petId: string) => {
   try {
     const petDeleted = await pets_algolia.deleteObject(petId);
@@ -35,7 +33,6 @@ export const delPet_ALG = async (petId: string) => {
   }
 };
 
-// VER si poner como variable al radio de distancia
 export const petsAround_ALG = async (lat: number, lng: number) => {
   try {
     const { hits } = await pets_algolia.search("", {
@@ -59,10 +56,3 @@ export const petUpdate_ALG = async (data: PetALG) => {
     return error;
   }
 };
-
-// USERS queries////////////////////////////////////////////////////////////////
-
-// // Search the index and print the results
-// index
-//   .search('test_record')
-//   .then(({ hits }) => console.log(hits[0]))

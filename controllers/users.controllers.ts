@@ -6,8 +6,7 @@ import * as jwt from "jsonwebtoken";
 import "dotenv/config";
 import { sendMail } from "../lib/sendgrid";
 
-// Recordar usar Cloudinary, Dropzone
-// SIGN IN
+
 export const createUser = async (req, res) => {
   try {
     const { firstname, email, password, profilePic, userId } = req.body;
@@ -26,8 +25,7 @@ export const createUser = async (req, res) => {
         profilePic,
       },
     });
-    // Averiguar si existe otra manera de callear al userId
-    // Se me hace que esta al borde de la sincronia (?)
+   
     if (created) {
       const userId = newUser.get("id"); //Primary key de User
       const userAuth = await Auth.create({
@@ -37,7 +35,6 @@ export const createUser = async (req, res) => {
       });
       const shhh = process.env.JSONWEBTOKEN_SHHH;
       const token = jwt.sign({ id: userId }, shhh);
-      // Recordar guardar este valor en el localStorage en el state
       res.status(200).json({
         newUser,
         userAuth,

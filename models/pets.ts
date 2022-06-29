@@ -31,7 +31,6 @@ export const Pet = sequelize.define(
     petPhoto: {
       type: DataTypes.STRING,
     },
-    // Averiguar si esto va (clave foranea manual seria esto no se si corresponde)
     userId: {
       type: DataTypes.INTEGER,
     },
