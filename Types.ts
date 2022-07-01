@@ -1,5 +1,4 @@
 //ALGOLIA TYPES:
-// El commonId es el id en comun entre Sequelize y Algolia
 // El id en Sequelize es autogenerado, por eso no es el mismo que algolia
 export interface PetALG {
   objectID?: string;

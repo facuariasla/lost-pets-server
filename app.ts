@@ -8,7 +8,6 @@ app.use(express.static("dist"));
 app.use(cors());
 //midlewares
 
-// Images limited to 5mb
 app.use(
   express.json({
     limit: "5mb",
