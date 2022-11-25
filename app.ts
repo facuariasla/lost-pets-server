@@ -1,6 +1,6 @@
 import * as express from "express";
-import usersRoutes from "./routes/users.routes";
-import petsRoutes from "./routes/pets.routes";
+import usersRoutes from "./src/routes/users.routes";
+import petsRoutes from "./src/routes/pets.routes";
 import * as cors from "cors";
 
 const app = express();
