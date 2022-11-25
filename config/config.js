@@ -1,21 +1,24 @@
-require('dotenv').config();
+require("dotenv").config();
 let environment = process.env.APP_ENVIROMENT;
-let isUsingSSL = (process.env.POSTGRES_SSL == 'true');
 
-console.log(`is usging SSL > ${isUsingSSL}`)
+console.log(`is usging SSL`);
 
 module.exports = {
-  [environment]:{
-    url: process.env.PSQL_URL,
-    dialect: 'postgres',
+  [environment]: {
+    dialect: "postgres",
+    username: "jlunkjrrtfijme",
+    password: process.env.SEQ_DATABASE_PASSWORD,
+    database: "d2tgfftacadrv1",
+    port: 5432,
+    host: "ec2-54-172-175-251.compute-1.amazonaws.com",
+    ssl: true,
     dialectOptions: {
-      ssl:
-        isUsingSSL ? 
-          {
-            rejectUnauthorized: false
-          }   : false
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
     },
-    migrationStorage: 'sequelize',
-    seederStorage: 'sequelize',
+    migrationStorage: "sequelize",
+    seederStorage: "sequelize",
   },
 };

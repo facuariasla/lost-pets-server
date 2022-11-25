@@ -36,6 +36,10 @@ export const Pet = sequelize.define(
     },
     objectID: {
       type: DataTypes.STRING
+    },
+    active:{
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
     }
   }
   // prevent sequelize from pluralizing table names:
