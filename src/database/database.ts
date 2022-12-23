@@ -4,11 +4,11 @@ import { Sequelize } from "sequelize";
 
 export const sequelize = new Sequelize({
   dialect: "postgres",
-  username: "jlunkjrrtfijme",
+  username: "pawerorg_usr",
   password: process.env.SEQ_DATABASE_PASSWORD,
-  database: "d2tgfftacadrv1",
-  port: 5432,
-  host: "ec2-54-172-175-251.compute-1.amazonaws.com",
+  database: "pawerorg_db",
+  port: 25061,
+  host: "pawer-postgres-do-user-10028346-0.b.db.ondigitalocean.com",
   ssl: true,
   dialectOptions: {
     ssl: {
