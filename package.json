@@ -15,7 +15,9 @@
     "delete:users": "ts-node ./sync/sync-users.ts",
     "delete:auths": "ts-node ./sync/sync-auths.ts",
     "delete:pets": "ts-node ./sync/sync-pets.ts",
-    "delete:all": "npm run delete:users && npm run delete:auths && npm run delete:pets"
+    "delete:all": "npm run delete:users && npm run delete:auths && npm run delete:pets",
+    "migrateUp":"npx sequelize-cli db:migrate",
+    "migrateDown": "npx sequelize-cli db:migrate:undo"
   },
   "keywords": [],
   "author": "",

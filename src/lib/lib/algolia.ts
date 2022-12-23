@@ -37,7 +37,7 @@ export const petsAround_ALG = async (lat: number, lng: number) => {
   try {
     const { hits } = await pets_algolia.search("", {
       aroundLatLng: [lat, lng].join(","),
-      aroundRadius: 2000, // expresado en metros
+      aroundRadius: 1000, // expresado en metros
     });
     return hits;
   } catch (error) {

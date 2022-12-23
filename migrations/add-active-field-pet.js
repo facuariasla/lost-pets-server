@@ -15,5 +15,6 @@ module.exports = {
      * Drop pets
      */
     // await queryInterface.dropTable("pets");
+    return Promise.all([queryInterface.removeColumn('pets', 'active')]);
   },
 };
